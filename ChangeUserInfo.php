@@ -57,15 +57,26 @@ $secretKey = 'grhktgjfdhliedcmiolrsyih';
 
 
 try {
-
+    //decode JWT and getting user_id
     $decoded = JWT::decode($jwt1, $secretKey, array('HS512'));
+    $user_id = $decoded->user_id;
     
-    // Access is granted. Add code of the operation here 
-
+    // print Access is granted in case user authorized 
     echo json_encode(array(
         "message" => "Access granted:",
-        "val" => $decoded,
     ));
+    
+    //get the data from json
+    $data = json_decode(file_get_contents("php://input"));
+    $first_name = $data->first_name;
+    $last_name = $data->last_name;
+ 
+    //update first_name and last_name in the users table
+    $sql = "UPDATE users SET first_name='$first_name', last_name='$last_name'  WHERE user_id = '$user_id'";
+    $result = mysqli_query($link, $sql);
+    if(!$result){
+    echo "<div class='alert alert-danger'>There was an error inserting the user details in the database.</div>";exit;
+    }
 
 }catch (Exception $e){
 
