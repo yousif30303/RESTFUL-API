@@ -72,17 +72,30 @@ try {
     $Role = $item['Role'];
 
 if($Role === 'admin'){
-        // print Access is granted in case user authorized 
-        echo json_encode(array(
-            "message" => "you are admin:",
-        ));
+
+    $sql1 = "SELECT * FROM customer_support_ticket";
+    $result1 = mysqli_query($link, $sql1);
+    if(!$result){
+        echo '<div class="alert alert-danger">Error running the query!</div>';
+        exit;
+    }
+    $resultArray = array();
+
+    // fetch product data one by one
+    while ($item1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
+        array_push($resultArray,$item1);
+    }
+
+   
+
+    echo json_encode($resultArray);
         
         
 }
 
 else{
     echo json_encode(array(
-        "message" => "you are user:",
+        "message" => "you not authorized, you are not admin",
     ));
 }
 
