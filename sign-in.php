@@ -39,6 +39,7 @@ if($count !== 1){
 else{
     //fetching the user data from database
     $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $user_id = $item['user_id'];
     $first_name = $item['first_name'];
     $last_name = $item['last_name'];
     $email = $item['email'];
@@ -49,6 +50,7 @@ else{
     
     //adding PAYLOAD DATA
     $data = [
+        'user_id' => $user_id,
         'first_name' => $first_name,
         'last_name' => $last_name,
         'email'  => $email,       
