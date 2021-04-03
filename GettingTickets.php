@@ -61,6 +61,7 @@ try {
     $decoded = JWT::decode($jwt1, $secretKey, array('HS512'));
     $user_id = $decoded->user_id;
 
+    //getting user info
     $sql = "SELECT * FROM users WHERE user_id='$user_id'";
     $result = mysqli_query($link, $sql);
     if(!$result){
@@ -68,31 +69,37 @@ try {
         exit;
     }
 
+    //getting user role
     $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $Role = $item['Role'];
 
+//if the user is admin
 if($Role === 'admin'){
 
+    //getting the tickets from table
     $sql1 = "SELECT * FROM customer_support_ticket";
     $result1 = mysqli_query($link, $sql1);
     if(!$result){
         echo '<div class="alert alert-danger">Error running the query!</div>';
         exit;
     }
+
+    //define new array
     $resultArray = array();
 
-    // fetch product data one by one
+    // fetch data users one by one and push it to the array
     while ($item1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
         array_push($resultArray,$item1);
     }
 
    
-
+    //print the result
     echo json_encode($resultArray);
         
         
 }
 
+//if the user is not admin
 else{
     echo json_encode(array(
         "message" => "you not authorized, you are not admin",
