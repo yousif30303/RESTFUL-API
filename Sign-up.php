@@ -20,7 +20,7 @@ $Role = $data->Role;
 //insert the data into the table
 $sql = "INSERT INTO users (`first_name`, `last_name`, `email`, `password`, `Role`) VALUES ('$first_name', '$last_name', '$email', '$password', '$Role')";
 
-//get the 
+//excute the query
 $result = mysqli_query($link, $sql);
 if(!$result){
     echo '<div class="alert alert-danger">There was an error inserting the users details in the database!</div>'; 
